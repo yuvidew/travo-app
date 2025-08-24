@@ -6,10 +6,11 @@ import { Link } from 'expo-router'
 import InputField from '../../components/input-fields'
 import CustomButton from '../../components/custom-button'
 
-const Signin = () => {
+const Signup = () => {
     const [form, setForm] = useState({
         email: "",
         password: "",
+        name : ""
     })
     return (
         <SafeAreaView style={styles.container}>
@@ -34,14 +35,7 @@ const Signin = () => {
                             color: "#09090b"
                         }}
                     >
-                        Welcome to {""}
-                        <Text
-                            style={{
-                                color: "#fb2c36"
-                            }}
-                        >
-                            Travo.
-                        </Text>
+                        Create account {""}
                     </Text>
                     {/* end to heading  */}
                 </View>
@@ -53,7 +47,7 @@ const Signin = () => {
                     color: "#09090b"
                 }}
                 >
-                    Enter you email and password to securely access your account and manage your services.
+                    Create a new account to get started and enjoy seamless access to oout features
                 </Text>
                 {/* end to description */}
 
@@ -64,6 +58,14 @@ const Signin = () => {
                         marginTop: 20,
                     }}
                 >
+
+                    {/* start to name */}
+                    <InputField
+                        label="Name"
+                        placeholder='John doe'
+                        onChangeText={(value) => setForm({ ...form, name: value })}
+                    />
+                    {/* end to name */}
 
                     {/* start to email */}
                     <InputField
@@ -81,8 +83,6 @@ const Signin = () => {
                         onChangeText={(value) => setForm({ ...form, password: value })}
                     />
                     {/* end to password */}
-
-                    
 
                     {/* start to submit button */}
                     <CustomButton
@@ -134,16 +134,17 @@ const Signin = () => {
                         fontSize: 14,
                         color: "#09090b"
                     }}>
-                        Don&apos;t have an account?{" "}
+                    Already you have a account?{" "}
                     </Text>
 
+{/* TODO: change /(auth)/otp to /(auth)/sing-in */}
                     <Link
-                        href={"/(auth)/sign-up"}
+                        href={"/(auth)/otp"}
                         style={{
                             textDecorationLine: "underline"
                         }}
                     >
-                        Sign up
+                        Sign in
                     </Link>
                 </View>
                 {/* end to redirect */}
@@ -153,7 +154,7 @@ const Signin = () => {
     )
 }
 
-export default Signin
+export default Signup
 
 const styles = StyleSheet.create({
     container: {

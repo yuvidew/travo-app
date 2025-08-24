@@ -55,8 +55,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         position: "relative",
         padding: 12,
-        gap: 25,
-        justifyContent : "space-around"
+        gap: 10,
+        justifyContent : "center"
     },
 
     image: {

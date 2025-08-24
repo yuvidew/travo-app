@@ -1,19 +1,32 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import React, { useState } from 'react'
 import { Icons } from '../../constants/icons'
-import { Link } from 'expo-router'
+import { Link, router } from 'expo-router'
 import InputField from '../../components/input-fields'
 import CustomButton from '../../components/custom-button'
 
-const Signin = () => {
+const ResetPassword = () => {
     const [form, setForm] = useState({
-        email: "",
-        password: "",
+        new_password: "",
+        confirm_password: "",
     })
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.image_box}>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => router.push("/(auth)/sign-in")}
+                >
+                    <Image
+                        source={Icons.back}
+                        style={{
+                            width: 25,
+                            height: 25,
+                        }}
+                        tintColor={"#fb2c36"}
+                    />
+                </TouchableOpacity>
                 {/* start to logo  */}
                 <Image
                     source={Icons.logo}
@@ -34,14 +47,7 @@ const Signin = () => {
                             color: "#09090b"
                         }}
                     >
-                        Welcome to {""}
-                        <Text
-                            style={{
-                                color: "#fb2c36"
-                            }}
-                        >
-                            Travo.
-                        </Text>
+                        Set new password
                     </Text>
                     {/* end to heading  */}
                 </View>
@@ -53,7 +59,7 @@ const Signin = () => {
                     color: "#09090b"
                 }}
                 >
-                    Enter you email and password to securely access your account and manage your services.
+                    Must be at last 8 characters.
                 </Text>
                 {/* end to description */}
 
@@ -65,61 +71,32 @@ const Signin = () => {
                     }}
                 >
 
-                    {/* start to email */}
+                    {/* start to new password */}
                     <InputField
-                        label="Email"
-                        placeholder='m@example.com'
-                        value={form.email}
-                        onChangeText={(value) => setForm({ ...form, email: value })}
-                    />
-                    {/* end to email */}
-                    {/* start to password */}
-                    <InputField
-                        label="Password"
+                        label="New password"
                         placeholder='••••••••'
                         isPassword
-                        onChangeText={(value) => setForm({ ...form, password: value })}
+                        onChangeText={(value) => setForm({ ...form, new_password: value })}
                     />
-                    {/* end to password */}
+                    {/* end to new password */}
 
-                    
+                    {/* start to confirm password */}
+                    <InputField
+                        label="Confirm password"
+                        placeholder='••••••••'
+                        isPassword
+                        onChangeText={(value) => setForm({ ...form, confirm_password: value })}
+                    />
+                    {/* end to confirm password */}
 
                     {/* start to submit button */}
                     <CustomButton
-                        title='Sign in'
+                        title='Submit'
                         style={{
                             marginTop: 12,
                         }}
                     />
-                    {/* end to submit button */}
 
-                    <View style={styles.or_container}>
-                        <View style={styles.line} />
-                        <Text style={styles.text}>Or continue with</Text>
-                        <View style={styles.line} />
-                    </View>
-
-                    {/* start to submit button */}
-                    <CustomButton
-                        IconLeft={
-                            <Image
-                                source={Icons.google}
-                                style={{
-                                    width: 20,
-                                    height: 20
-                                }}
-                                resizeMode="contain"
-                            />
-                        }
-                        title='Continue with Goggle'
-                        bgVariant="outline"
-                        textVariant="outline"
-
-                        style={{
-                            marginTop: 12,
-                        }}
-                    />
-                    {/* end to submit button */}
 
                 </View>
                 {/* end to sign in form */}
@@ -128,22 +105,17 @@ const Signin = () => {
                 <View style={{
                     flexDirection: "row",
                     gap: 4,
-                    justifyContent: "center"
+                    justifyContent: "center",
+                    marginTop: 10
                 }}>
-                    <Text style={{
-                        fontSize: 14,
-                        color: "#09090b"
-                    }}>
-                        Don&apos;t have an account?{" "}
-                    </Text>
 
                     <Link
-                        href={"/(auth)/sign-up"}
+                        href={"/(auth)/welcome"}
                         style={{
-                            textDecorationLine: "underline"
+                            color: "fb2c36"
                         }}
                     >
-                        Sign up
+                        Reset code
                     </Link>
                 </View>
                 {/* end to redirect */}
@@ -153,20 +125,25 @@ const Signin = () => {
     )
 }
 
-export default Signin
+export default ResetPassword
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingHorizontal: 20,
-        justifyContent : "center",
+        // justifyContent : "center",
         gap: 28
     },
     image_box: {
-
         alignItems: "flex-start",
         justifyContent: "flex-end",
-        // height: 200,
+        height: 200,
+        position: "relative"
+    },
+    button: {
+        position: "absolute",
+        top: 15,
+        left: 5
     },
     logo: {
         width: 70,
@@ -180,7 +157,7 @@ const styles = StyleSheet.create({
     },
     line: {
         flex: 1,                   // flex-1
-        height: 1,   
+        height: 1,
         // borderWidth : 1,              // h-[1px]
         backgroundColor: "#AAAAAA",
         marginHorizontal: 6,       // gap-x-3 (≈ 0.75rem = 12px total gap, so 6px each side)
