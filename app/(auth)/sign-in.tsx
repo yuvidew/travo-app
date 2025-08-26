@@ -5,12 +5,15 @@ import { Icons } from '../../constants/icons'
 import { Link } from 'expo-router'
 import InputField from '../../components/input-fields'
 import CustomButton from '../../components/custom-button'
+import { useSignin } from './hook/useAuth'
 
 const Signin = () => {
     const [form, setForm] = useState({
         email: "",
         password: "",
-    })
+    });
+
+    const {mutate : onSignin , isPending} = useSignin()
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.image_box}>
@@ -82,7 +85,21 @@ const Signin = () => {
                     />
                     {/* end to password */}
 
-                    
+                    <View 
+                        style = {{
+                            alignItems : "flex-end"
+                        }}
+                    >
+                        <Link 
+                            href={"/(auth)/forgot-password"} 
+                            style = {{
+                                textDecorationLine : "underline",
+                                
+                            }}
+                        >
+                            Forgot password ?
+                        </Link>
+                    </View>
 
                     {/* start to submit button */}
                     <CustomButton
@@ -90,6 +107,8 @@ const Signin = () => {
                         style={{
                             marginTop: 12,
                         }}
+                        onPress={() => onSignin(form)}
+                        loading = {isPending}
                     />
                     {/* end to submit button */}
 

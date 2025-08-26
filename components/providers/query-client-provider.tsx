@@ -26,8 +26,8 @@ export const QueryClientProviderComp = (
 ) => {
     return (
         <QueryClientProvider client={queryClient}>
-            <Toast />
             {children}
+            <Toast  position="top" />
         </QueryClientProvider>
     )
 }

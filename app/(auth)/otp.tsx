@@ -5,11 +5,15 @@ import { Icons } from '../../constants/icons'
 import { Link, router } from 'expo-router'
 import InputField from '../../components/input-fields'
 import CustomButton from '../../components/custom-button'
+import { useVerifyOTP } from './hook/useAuth'
 
 const Otp = () => {
     const [form, setForm] = useState({
-        otp_pin: "",
-    })
+        pin: "",
+    });
+
+    const {mutate : onVerifyOtp, isPending} = useVerifyOTP()
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.image_box}>
@@ -62,7 +66,7 @@ const Otp = () => {
                 </Text>
                 {/* end to description */}
 
-                {/* start to sign in form */}
+                {/* start to otp verify form form */}
                 <View
                     style={{
                         gap: 16,
@@ -74,40 +78,23 @@ const Otp = () => {
                     <InputField
                         label="Code"
                         placeholder='1234'
-                        onChangeText={(value) => setForm({ ...form, otp_pin: value })}
+                        onChangeText={(value) => setForm({ ...form, pin: value })}
                     />
                     {/* end to code */}
 
                     {/* start to submit button */}
                     <CustomButton
-                        title='Sign in'
+                        title='Submit'
                         style={{
                             marginTop: 12,
                         }}
+                        loading = {isPending}
+                        onPress={() => onVerifyOtp(form)}
                     />
 
 
                 </View>
-                {/* end to sign in form */}
-
-                {/* start to redirect */}
-                <View style={{
-                    flexDirection: "row",
-                    gap: 4,
-                    justifyContent: "center",
-                    marginTop : 10
-                }}>
-
-                    <Link
-                        href={"/(auth)/forgot-password"}
-                        style={{
-                            color : "fb2c36"
-                        }}
-                    >
-                        Reset code
-                    </Link>
-                </View>
-                {/* end to redirect */}
+                {/* end to otp verify form form */}
 
             </View>
         </SafeAreaView>

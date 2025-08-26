@@ -5,6 +5,8 @@ import axios, { isAxiosError } from "axios";
 import { router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+type ApiResponse = { message: string; token?: string };
+
 /**
  * Handles user signup request.
  *
@@ -14,22 +16,28 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
  */
 
 export const signup = async (form: SignupFormType): Promise<void> => {
+    console.log("call the sign up 1" , form);
     try {
         const { data, status } = await axios.post(api_end_points.signup, form);
-
+        console.log("call the sign up 2");
+        
         if (status === 200) {
             Toast.show({
                 type: "success",
                 text1: data.message,
             });
 
+            router.push("/(auth)/sign-in")
+            
             return data;
         }
+        console.log("call the sign up 3");
 
     } catch (error) {
         console.log("Error to sign up: ", error);
 
         if (isAxiosError(error)) {
+            console.log("the error" , error.message , error.status);
             if (error.response?.status === 409) {
                 Toast.show({
                     type: "error",
@@ -67,6 +75,9 @@ export const signin = async (form: SigninFormType): Promise<void> => {
                 text1: data.message,
             });
 
+            await AsyncStorage.setItem("user_email", form.email);
+
+            router.push("/(auth)/otp");
             return data;
         }
 
@@ -94,20 +105,24 @@ export const signin = async (form: SigninFormType): Promise<void> => {
     }
 }
 
-type VerifyOtpInput = { email: string; pin: string };
-type VerifyOtpResponse = { message: string; token: string };
+type VerifyOtpInput = {  pin: string };
+
 
 /**
  * Verifies OTP for a user.
  *
  * @async
- * @param {{ email: string, pin: string }} form - The OTP verification form data.
+ * @param {{ pin: string }} form - The OTP verification form data.
  * @returns {Promise<void>} Resolves when OTP verification is completed.
  */
 
 export const otpCheck = async (form: VerifyOtpInput) => {
+    const email = await AsyncStorage.getItem("user_email");
     try {
-        const { data, status } = await axios.post<VerifyOtpResponse>(api_end_points.verify_otp, form);
+        const { data, status } = await axios.post<ApiResponse>(api_end_points.verify_otp, {
+            email,
+            pin : form.pin
+        });
 
         if (status === 200) {
             Toast.show({
@@ -115,11 +130,171 @@ export const otpCheck = async (form: VerifyOtpInput) => {
                 text1: data.message,
             });
 
+            await AsyncStorage.removeItem("user_email");
+
+            // TODO: redirect to home screen
+            router.push("/(auth)/welcome")
+
             return data;
         }
 
     } catch (error) {
         console.log("Error to verify otp: ", error);
+
+        if (isAxiosError(error)) {
+            if (error.response?.status === 401) {
+                Toast.show({
+                    type: "error",
+                    text1: error.response.data.message
+                })
+
+                throw error
+            } else if (error.response?.status === 400) {
+                Toast.show({
+                    type: "error",
+                    text1: error.response.data.message
+                })
+
+                throw error
+            } else if (error.response?.status === 500) {
+                Toast.show({
+                    type: "error",
+                    text1: error.response.data.message
+                })
+
+                throw error
+            }
+        }
+    }
+}
+
+type VerifyEmailFromType = {
+    email : string
+}
+
+export const verifyEmail = async (form : VerifyEmailFromType) => {
+    try {
+        const {data , status} = await axios.post(api_end_points.verify_email , form);
+
+        if (status === 200) {
+            Toast.show({
+                type: "success",
+                text1: data.message,
+            });
+
+            await AsyncStorage.setItem("user_email", form.email);
+
+            router.push("/(auth)/password-reset-code")
+
+            return data
+
+        }
+
+    } catch (error) {
+        console.log("Error to verify email: ", error);
+
+        if (isAxiosError(error)) {
+            if (error.response?.status === 401) {
+                Toast.show({
+                    type: "error",
+                    text1: error.response.data.message
+                })
+
+                throw error
+            } else if (error.response?.status === 400) {
+                Toast.show({
+                    type: "error",
+                    text1: error.response.data.message
+                })
+
+                throw error
+            } else if (error.response?.status === 500) {
+                Toast.show({
+                    type: "error",
+                    text1: error.response.data.message
+                })
+
+                throw error
+            }
+        }
+    }
+
+}
+
+
+export const verifyOtp = async (form : VerifyOtpInput) => {
+    try {
+        const {data , status} = await axios.post(api_end_points.verify_reset_pass_otp, form);
+        if (status === 200) {
+            Toast.show({
+                type: "success",
+                text1: data.message,
+            });
+
+            await AsyncStorage.setItem("verify_token", data.token);
+
+            router.push("/(auth)/reset-password")
+
+            return data
+
+        }
+    } catch (error) {
+        console.log("Error to verify email: ", error);
+
+        if (isAxiosError(error)) {
+            if (error.response?.status === 401) {
+                Toast.show({
+                    type: "error",
+                    text1: error.response.data.message
+                })
+
+                throw error
+            } else if (error.response?.status === 400) {
+                Toast.show({
+                    type: "error",
+                    text1: error.response.data.message
+                })
+
+                throw error
+            } else if (error.response?.status === 500) {
+                Toast.show({
+                    type: "error",
+                    text1: error.response.data.message
+                })
+
+                throw error
+            }
+        }
+    }
+}
+
+type ResetPasswordType = {
+    newPassword : string
+}
+
+export const resetPassword = async (form : ResetPasswordType) => {
+    const token = await AsyncStorage.getItem("verify_token");
+
+    try {
+        const {data , status} = await axios.post(api_end_points.reset_password , form , {
+            headers  : {
+                Authorization :`Bearer ${token}`
+            }
+        })
+
+        if(status === 200){
+            Toast.show({
+                type: "success",
+                text1: data.message,
+            });
+
+            router.push("/(auth)/welcome")
+
+            return data
+        }
+
+    } catch (error) {
+        console.log("Error to verify email: ", error);
 
         if (isAxiosError(error)) {
             if (error.response?.status === 401) {
@@ -159,6 +334,7 @@ type Tokens = { accessToken: string; refreshToken?: string };
  */
 export const saveToken = async (tokens: Tokens): Promise<void> => {
     await AsyncStorage.setItem("accessToken", tokens.accessToken);
+    console.log("token is saved  ");
     if (tokens.refreshToken) {
         await AsyncStorage.setItem("refreshToken", tokens.refreshToken);
     }
@@ -172,7 +348,6 @@ export const saveToken = async (tokens: Tokens): Promise<void> => {
  */
 export const getAccessToken = async (): Promise<string | null> => {
     return await AsyncStorage.getItem("accessToken");
-
 }
 
 /**

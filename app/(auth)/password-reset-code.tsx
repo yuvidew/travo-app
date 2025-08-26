@@ -13,15 +13,15 @@ const PasswordResetCode = () => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.image_box}>
-                <TouchableOpacity 
-                    style = {styles.button}
+                <TouchableOpacity
+                    style={styles.button}
                     onPress={() => router.push("/(auth)/sign-in")}
                 >
-                    <Image 
+                    <Image
                         source={Icons.back}
-                        style = {{
-                            width : 25,
-                            height : 25,
+                        style={{
+                            width: 25,
+                            height: 25,
                         }}
                         tintColor={"#fb2c36"}
                     />
@@ -58,7 +58,7 @@ const PasswordResetCode = () => {
                     color: "#09090b"
                 }}
                 >
-                    Please enter the 6-digit code we sent to 
+                    Please enter the 6-digit code we sent to
                 </Text>
                 {/* end to description */}
 
@@ -90,24 +90,6 @@ const PasswordResetCode = () => {
                 </View>
                 {/* end to sign in form */}
 
-{/* start to redirect */}
-                <View style={{
-                    flexDirection: "row",
-                    gap: 4,
-                    justifyContent: "center",
-                    marginTop : 10
-                }}>
-
-                    <Link
-                        href={"/(auth)/reset-password"}
-                        style={{
-                            color : "fb2c36"
-                        }}
-                    >
-                        Reset code
-                    </Link>
-                </View>
-                {/* end to redirect */}
             </View>
         </SafeAreaView>
     )
@@ -126,12 +108,12 @@ const styles = StyleSheet.create({
         alignItems: "flex-start",
         justifyContent: "flex-end",
         height: 200,
-        position : "relative"
+        position: "relative"
     },
-    button : {
-        position : "absolute",
-        top : 15,
-        left : 5
+    button: {
+        position: "absolute",
+        top: 15,
+        left: 5
     },
     logo: {
         width: 70,
