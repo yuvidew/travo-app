@@ -39,6 +39,8 @@ const Spinner = ({ loading }: { loading: boolean }) => {
             style={[{ transform: [{ rotate: rotateInterpolate }] }]}
             tintColor="#fff"
             className={"size-6"}
+            width={24}
+            height={24}
         />
     )
 }

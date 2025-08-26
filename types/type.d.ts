@@ -155,3 +155,15 @@ declare interface TopHeadline {
   urlToImage: string | null;
   onPress : () => void;
 }
+
+declare interface SignupFormType {
+  name : string;
+  email : string;
+  password : string
+}
+
+declare interface SigninFormType {
+  // name : string;
+  email : string;
+  password : string
+}

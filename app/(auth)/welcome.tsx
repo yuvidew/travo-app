@@ -3,10 +3,14 @@ import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { images } from '../../constants/images'
 import { router } from 'expo-router';
+import { getAccessToken } from './api';
 
 const { width } = Dimensions.get("window")
 
 const Welcome = () => {
+
+    console.log("hello",getAccessToken());
+
     return (
         <SafeAreaView style={styles.container}>
             {/* start to welcome image  */}

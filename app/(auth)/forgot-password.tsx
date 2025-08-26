@@ -2,26 +2,26 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import React, { useState } from 'react'
 import { Icons } from '../../constants/icons'
-import { Link, router } from 'expo-router'
+import {  router } from 'expo-router'
 import InputField from '../../components/input-fields'
 import CustomButton from '../../components/custom-button'
 
 const ForgotPassword = () => {
     const [form, setForm] = useState({
         email: "",
-    })
+    });
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.image_box}>
-                <TouchableOpacity 
-                    style = {styles.button}
+                <TouchableOpacity
+                    style={styles.button}
                     onPress={() => router.push("/(auth)/sign-in")}
                 >
-                    <Image 
+                    <Image
                         source={Icons.back}
-                        style = {{
-                            width : 25,
-                            height : 25,
+                        style={{
+                            width: 25,
+                            height: 25,
                         }}
                         tintColor={"#fb2c36"}
                     />
@@ -90,24 +90,7 @@ const ForgotPassword = () => {
                 </View>
                 {/* end to sign in form */}
 
-                {/* start to redirect */}
-                                <View style={{
-                                    flexDirection: "row",
-                                    gap: 4,
-                                    justifyContent: "center",
-                                    marginTop : 10
-                                }}>
                 
-                                    <Link
-                                        href={"/(auth)/password-reset-code"}
-                                        style={{
-                                            color : "fb2c36"
-                                        }}
-                                    >
-                                        Reset code
-                                    </Link>
-                                </View>
-                                {/* end to redirect */}
 
             </View>
         </SafeAreaView>
@@ -127,12 +110,12 @@ const styles = StyleSheet.create({
         alignItems: "flex-start",
         justifyContent: "flex-end",
         height: 200,
-        position : "relative"
+        position: "relative"
     },
-    button : {
-        position : "absolute",
-        top : 15,
-        left : 5
+    button: {
+        position: "absolute",
+        top: 15,
+        left: 5
     },
     logo: {
         width: 70,

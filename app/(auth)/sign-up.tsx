@@ -5,13 +5,17 @@ import { Icons } from '../../constants/icons'
 import { Link } from 'expo-router'
 import InputField from '../../components/input-fields'
 import CustomButton from '../../components/custom-button'
+import { useSignUp } from './hook/useAuth'
 
 const Signup = () => {
     const [form, setForm] = useState({
         email: "",
         password: "",
         name : ""
-    })
+    });
+
+    const { mutate : onSignUp , isPending } = useSignUp()
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.image_box}>
@@ -86,10 +90,12 @@ const Signup = () => {
 
                     {/* start to submit button */}
                     <CustomButton
-                        title='Sign in'
+                        title='Sign up'
                         style={{
                             marginTop: 12,
                         }}
+                        loading = {isPending}
+                        onPress={() => onSignUp(form)}
                     />
                     {/* end to submit button */}
 

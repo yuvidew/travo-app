@@ -101,24 +101,6 @@ const ResetPassword = () => {
                 </View>
                 {/* end to sign in form */}
 
-                {/* start to redirect */}
-                <View style={{
-                    flexDirection: "row",
-                    gap: 4,
-                    justifyContent: "center",
-                    marginTop: 10
-                }}>
-
-                    <Link
-                        href={"/(auth)/welcome"}
-                        style={{
-                            color: "fb2c36"
-                        }}
-                    >
-                        Reset code
-                    </Link>
-                </View>
-                {/* end to redirect */}
 
             </View>
         </SafeAreaView>
