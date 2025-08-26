@@ -5,11 +5,16 @@ import { Icons } from '../../constants/icons'
 import {  router } from 'expo-router'
 import InputField from '../../components/input-fields'
 import CustomButton from '../../components/custom-button'
+import { useVerifyEmail } from './hook/useAuth'
 
 const ForgotPassword = () => {
     const [form, setForm] = useState({
         email: "",
     });
+
+    const {mutate : onSubmitEmail , isPending} = useVerifyEmail();
+
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.image_box}>
@@ -84,6 +89,8 @@ const ForgotPassword = () => {
                         style={{
                             marginTop: 12,
                         }}
+                        loading = {isPending}
+                        onPress={() => onSubmitEmail(form)}
                     />
 
 
