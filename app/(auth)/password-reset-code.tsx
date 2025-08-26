@@ -2,14 +2,18 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import React, { useState } from 'react'
 import { Icons } from '../../constants/icons'
-import { Link, router } from 'expo-router'
+import {  router } from 'expo-router'
 import InputField from '../../components/input-fields'
 import CustomButton from '../../components/custom-button'
+import { useVerifyOtpToResetPassword } from './hook/useAuth'
 
 const PasswordResetCode = () => {
     const [form, setForm] = useState({
-        otp_code: "",
+        pin: "",
     })
+
+    const {mutate: onSubmitPin , isPending} = useVerifyOtpToResetPassword();
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.image_box}>
@@ -74,7 +78,7 @@ const PasswordResetCode = () => {
                     <InputField
                         label="Code"
                         placeholder='1234'
-                        onChangeText={(value) => setForm({ ...form, otp_code: value })}
+                        onChangeText={(value) => setForm({ ...form, pin: value })}
                     />
                     {/* end to name */}
 
@@ -84,6 +88,8 @@ const PasswordResetCode = () => {
                         style={{
                             marginTop: 12,
                         }}
+                        loading = {isPending}
+                        onPress={() => onSubmitPin(form)}
                     />
 
 

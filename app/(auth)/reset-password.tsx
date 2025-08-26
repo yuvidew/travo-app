@@ -2,15 +2,34 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import React, { useState } from 'react'
 import { Icons } from '../../constants/icons'
-import { Link, router } from 'expo-router'
+import {  router } from 'expo-router'
 import InputField from '../../components/input-fields'
 import CustomButton from '../../components/custom-button'
+import Toast from 'react-native-toast-message'
+import { useResetPassword } from './hook/useAuth'
 
 const ResetPassword = () => {
     const [form, setForm] = useState({
         new_password: "",
         confirm_password: "",
-    })
+    });
+
+    const {mutate: onResetPassword , isPending} = useResetPassword()
+
+    const onSubmit = () => {
+        if (form.confirm_password !== form.new_password) {
+            Toast.show({
+                type : "error",
+                text1 : "Passwords do not match",
+                text2: "Please re-enter your new password.",
+            });
+
+            return null;
+        }
+
+        onResetPassword({newPassword : form.new_password})
+
+    }
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.image_box}>
@@ -95,6 +114,8 @@ const ResetPassword = () => {
                         style={{
                             marginTop: 12,
                         }}
+                        loading = {isPending}
+                        onPress={onSubmit}
                     />
 
 

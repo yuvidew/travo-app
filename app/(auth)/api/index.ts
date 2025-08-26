@@ -132,7 +132,6 @@ export const otpCheck = async (form: VerifyOtpInput) => {
 
             await AsyncStorage.removeItem("user_email");
 
-            // TODO: redirect to home screen
             router.push("/(auth)/welcome")
 
             return data;
@@ -173,6 +172,7 @@ type VerifyEmailFromType = {
 }
 
 export const verifyEmail = async (form : VerifyEmailFromType) => {
+    
     try {
         const {data , status} = await axios.post(api_end_points.verify_email , form);
 
@@ -223,8 +223,12 @@ export const verifyEmail = async (form : VerifyEmailFromType) => {
 
 
 export const verifyOtp = async (form : VerifyOtpInput) => {
+    const email = await AsyncStorage.getItem("user_email");
     try {
-        const {data , status} = await axios.post(api_end_points.verify_reset_pass_otp, form);
+        const {data , status} = await axios.post(api_end_points.verify_reset_pass_otp, {
+            email,
+            pin : form.pin
+        });
         if (status === 200) {
             Toast.show({
                 type: "success",
@@ -274,9 +278,13 @@ type ResetPasswordType = {
 
 export const resetPassword = async (form : ResetPasswordType) => {
     const token = await AsyncStorage.getItem("verify_token");
+    const email = await AsyncStorage.getItem("user_email");
 
     try {
-        const {data , status} = await axios.post(api_end_points.reset_password , form , {
+        const {data , status} = await axios.put(api_end_points.reset_password , {
+            email,
+            newPassword : form.newPassword
+        } , {
             headers  : {
                 Authorization :`Bearer ${token}`
             }
@@ -288,7 +296,10 @@ export const resetPassword = async (form : ResetPasswordType) => {
                 text1: data.message,
             });
 
-            router.push("/(auth)/welcome")
+            await AsyncStorage.removeItem("user_email");
+            await AsyncStorage.removeItem("verify_token");
+
+            router.push("/(auth)/sign-in")
 
             return data
         }
@@ -311,7 +322,14 @@ export const resetPassword = async (form : ResetPasswordType) => {
                 })
 
                 throw error
-            } else if (error.response?.status === 500) {
+            } else if (error.response?.status === 404) {
+                Toast.show({
+                    type: "error",
+                    text1: error.response.data.message
+                })
+
+                throw error
+            }else if (error.response?.status === 500) {
                 Toast.show({
                     type: "error",
                     text1: error.response.data.message
