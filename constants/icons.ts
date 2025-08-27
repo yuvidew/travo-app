@@ -5,4 +5,12 @@ export const Icons = {
     loader : require("../assets/icons/loading.png"),
     google : require("../assets/icons/google.png"),
     back : require("../assets/icons/back-arrow.png"),
+    home : require("../assets/icons/home.png"),
+    home_focus : require("../assets/icons/home-focus.png"),
+    search : require("../assets/icons/search.png"),
+    save : require("../assets/icons/save.png"),
+    save_focus : require("../assets/icons/save-focus.png"),
+    user_focus : require("../assets/icons/user-focus.png"),
+    user : require("../assets/icons/user.png"),
+
 }

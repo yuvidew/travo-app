@@ -167,3 +167,10 @@ declare interface SigninFormType {
   email : string;
   password : string
 }
+
+declare interface TabIconProps {
+    focused: boolean;
+    icon: any;
+    title?: string;
+    size?: number;
+}
