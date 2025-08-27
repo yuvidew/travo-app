@@ -16,11 +16,11 @@ type ApiResponse = { message: string; token?: string };
  */
 
 export const signup = async (form: SignupFormType): Promise<void> => {
-    console.log("call the sign up 1" , form);
+    console.log("call the sign up 1", form);
     try {
         const { data, status } = await axios.post(api_end_points.signup, form);
         console.log("call the sign up 2");
-        
+
         if (status === 200) {
             Toast.show({
                 type: "success",
@@ -28,7 +28,7 @@ export const signup = async (form: SignupFormType): Promise<void> => {
             });
 
             router.push("/(auth)/sign-in")
-            
+
             return data;
         }
         console.log("call the sign up 3");
@@ -37,7 +37,7 @@ export const signup = async (form: SignupFormType): Promise<void> => {
         console.log("Error to sign up: ", error);
 
         if (isAxiosError(error)) {
-            console.log("the error" , error.message , error.status);
+            console.log("the error", error.message, error.status);
             if (error.response?.status === 409) {
                 Toast.show({
                     type: "error",
@@ -105,7 +105,7 @@ export const signin = async (form: SigninFormType): Promise<void> => {
     }
 }
 
-type VerifyOtpInput = {  pin: string };
+type VerifyOtpInput = { pin: string };
 
 
 /**
@@ -121,7 +121,7 @@ export const otpCheck = async (form: VerifyOtpInput) => {
     try {
         const { data, status } = await axios.post<ApiResponse>(api_end_points.verify_otp, {
             email,
-            pin : form.pin
+            pin: form.pin
         });
 
         if (status === 200) {
@@ -132,7 +132,7 @@ export const otpCheck = async (form: VerifyOtpInput) => {
 
             await AsyncStorage.removeItem("user_email");
 
-            router.push("/(auth)/welcome")
+            router.push("/(root)/(tabs)")
 
             return data;
         }
@@ -168,13 +168,13 @@ export const otpCheck = async (form: VerifyOtpInput) => {
 }
 
 type VerifyEmailFromType = {
-    email : string
+    email: string
 }
 
-export const verifyEmail = async (form : VerifyEmailFromType) => {
-    
+export const verifyEmail = async (form: VerifyEmailFromType) => {
+
     try {
-        const {data , status} = await axios.post(api_end_points.verify_email , form);
+        const { data, status } = await axios.post(api_end_points.verify_email, form);
 
         if (status === 200) {
             Toast.show({
@@ -222,12 +222,12 @@ export const verifyEmail = async (form : VerifyEmailFromType) => {
 }
 
 
-export const verifyOtp = async (form : VerifyOtpInput) => {
+export const verifyOtp = async (form: VerifyOtpInput) => {
     const email = await AsyncStorage.getItem("user_email");
     try {
-        const {data , status} = await axios.post(api_end_points.verify_reset_pass_otp, {
+        const { data, status } = await axios.post(api_end_points.verify_reset_pass_otp, {
             email,
-            pin : form.pin
+            pin: form.pin
         });
         if (status === 200) {
             Toast.show({
@@ -273,24 +273,24 @@ export const verifyOtp = async (form : VerifyOtpInput) => {
 }
 
 type ResetPasswordType = {
-    newPassword : string
+    newPassword: string
 }
 
-export const resetPassword = async (form : ResetPasswordType) => {
+export const resetPassword = async (form: ResetPasswordType) => {
     const token = await AsyncStorage.getItem("verify_token");
     const email = await AsyncStorage.getItem("user_email");
 
     try {
-        const {data , status} = await axios.put(api_end_points.reset_password , {
+        const { data, status } = await axios.put(api_end_points.reset_password, {
             email,
-            newPassword : form.newPassword
-        } , {
-            headers  : {
-                Authorization :`Bearer ${token}`
+            newPassword: form.newPassword
+        }, {
+            headers: {
+                Authorization: `Bearer ${token}`
             }
         })
 
-        if(status === 200){
+        if (status === 200) {
             Toast.show({
                 type: "success",
                 text1: data.message,
@@ -329,7 +329,7 @@ export const resetPassword = async (form : ResetPasswordType) => {
                 })
 
                 throw error
-            }else if (error.response?.status === 500) {
+            } else if (error.response?.status === 500) {
                 Toast.show({
                     type: "error",
                     text1: error.response.data.message
@@ -352,7 +352,6 @@ type Tokens = { accessToken: string; refreshToken?: string };
  */
 export const saveToken = async (tokens: Tokens): Promise<void> => {
     await AsyncStorage.setItem("accessToken", tokens.accessToken);
-    console.log("token is saved  ");
     if (tokens.refreshToken) {
         await AsyncStorage.setItem("refreshToken", tokens.refreshToken);
     }
@@ -378,3 +377,20 @@ export const clearTokens = async (): Promise<void> => {
     await AsyncStorage.multiRemove(["accessToken", "refreshToken"]);
 
 }
+
+/**
+ * Checks if tokens exist in AsyncStorage.
+ *
+ * @async
+ * @returns {Promise<boolean>} True if tokens exist, false otherwise.
+ */
+export const checkTokens = async (): Promise<boolean> => {
+    try {
+        const accessToken = await AsyncStorage.getItem("accessToken");
+        const refreshToken = await AsyncStorage.getItem("refreshToken");
+        return !!(accessToken && refreshToken);
+    } catch (error) {
+        console.error("Error checking tokens ❌", error);
+        return false;
+    }
+};
