@@ -1,4 +1,4 @@
-import {  StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Color } from '../../../assets/Color'
@@ -10,33 +10,33 @@ import { router } from 'expo-router'
 
 const Travel_Style = [
     {
-        image : images.adventure,
-        text : "Adventure",
+        image: images.adventure,
+        text: "Adventure",
     },
     {
-        image : images.relaxed,
-        text : "Relaxed",
+        image: images.relaxed,
+        text: "Relaxed",
     },
     {
-        image : images.luxury,
-        text : "Luxury",
+        image: images.luxury,
+        text: "Luxury",
     },
     {
-        image : images.cultural,
-        text : "Cultural",
+        image: images.cultural,
+        text: "Cultural",
     },
     {
-        image : images.nature_outdoor,
-        text : "Nature & Outdoors",
+        image: images.nature_outdoor,
+        text: "Nature & Outdoors",
     },
     {
-        image : images.city_explore,
-        text : "City Exploration",
+        image: images.city_explore,
+        text: "City Exploration",
     },
 ]
 
 const SelectTravelStyle = () => {
-    const [travel_style , setTravelStyle] = useState<string[]>([]);
+    const [travel_style, setTravelStyle] = useState<string[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -48,28 +48,32 @@ const SelectTravelStyle = () => {
         }
 
         fetchData();
-    } , [])
+    }, [])
 
-    const onSelectStyle = (style : string) => {
-        if (!travel_style.includes(style)) {
-            setTravelStyle((prev) => {
-                const update = [...prev , style];
-                return update;
-            })
-        }else {
-            setTravelStyle((prev) => {
-                const update = prev.filter((ts) => style === ts);
-                return update;
-            })
-        }
+    const onSelectStyle = (style: string) => {
+        // if (!travel_style.includes(style)) {
+        //     setTravelStyle((prev) => {
+        //         const update = [...prev , style];
+        //         return update;
+        //     })
+        // }else {
+        //     setTravelStyle((prev) => {
+        //         const update = prev.filter((ts) => style === ts);
+        //         return update;
+        //     })
+        // }
+
+        setTravelStyle(prev =>
+            prev.includes(style) ? prev.filter(s => s !== style) : [...prev, style]
+        );
 
     }
 
     const onSubmit = async () => {
-        await AsyncStorage.setItem("travel_styles" , JSON.stringify(travel_style));
+        await AsyncStorage.setItem("travel_styles", JSON.stringify(travel_style));
         router.replace("/(root)/(tabs)")
     }
-    
+
 
     return (
         <SafeAreaView style={styles.container}>
@@ -98,13 +102,13 @@ const SelectTravelStyle = () => {
 
             {/* start to select trips */}
             <View style={styles.trip_style_container}>
-                {Travel_Style.map(({image , text} , i) => (
+                {Travel_Style.map(({ image, text }, i) => (
                     <ImageBox
                         key={i}
                         text={text}
                         image={image}
                         onSelect={() => onSelectStyle(text)}
-                        isChecked = {travel_style.includes(text)}
+                        isChecked={travel_style.includes(text)}
                     />
                 ))}
             </View>
@@ -113,7 +117,7 @@ const SelectTravelStyle = () => {
             {/* start to select button */}
             <CustomButton
                 title='Next'
-                disabled = {travel_style.length === 0}
+                disabled={travel_style.length === 0}
                 onPress={onSubmit}
             />
             {/* end to select button */}
