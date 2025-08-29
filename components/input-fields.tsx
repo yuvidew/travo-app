@@ -1,21 +1,22 @@
 import React, { useState } from "react";
 import {
-    View,
-    Text,
-    KeyboardAvoidingView,
-    TouchableWithoutFeedback,
     Image,
-    TextInput,
-    Platform,
-    Keyboard,
-    TouchableOpacity,
-    StyleSheet,
-    TextInputProps,
-    ViewStyle,
-    TextStyle,
     ImageStyle,
+    Keyboard,
+    KeyboardAvoidingView,
+    Platform,
+    StyleSheet,
+    Text,
+    TextInput,
+    TextInputProps,
+    TextStyle,
+    TouchableOpacity,
+    TouchableWithoutFeedback,
+    View,
+    ViewStyle,
 } from "react-native";
 import { Icons } from "../constants/icons";
+import { Color } from '../assets/Color'
 
 type InputFieldProps = {
     label: string;
@@ -93,7 +94,7 @@ const InputField = ({
                                     source={!isShow ? Icons.closeEye : Icons.openEye}
                                     style={[styles.icon, iconStyle]}
                                     resizeMode="contain"
-                                    tintColor={"#fb2c36"}
+                                    tintColor={Color.primary}
                                 />
                             </TouchableOpacity>
                         )}

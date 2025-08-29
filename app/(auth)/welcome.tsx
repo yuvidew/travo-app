@@ -1,9 +1,9 @@
-import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
-import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { images } from '../../constants/images'
 import { router } from 'expo-router';
-
+import React from 'react';
+import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { images } from '../../constants/images';
+import { Color } from '../../assets/Color'
 
 const { width } = Dimensions.get("window")
 
@@ -35,7 +35,7 @@ const Welcome = () => {
                 </Text>
                 <TouchableOpacity 
                     style = {styles.button}
-                    onPress={() => router.push("/(root)/(tabs)/index")}
+                    onPress={() => router.push("/(root)/(tabs)")}
                 >
                     <Text style = {{
                         color : "white",
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     h2: {
         fontSize: 28,
         fontWeight: "700",
-        color: "#fb2c36",
+        color: Color.primary,
     },
 
     p: {
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     },
 
     button : {
-        backgroundColor : "#fb2c36",
+        backgroundColor : Color.primary,
         display : "flex",
         justifyContent : "center",
         alignItems : "center",

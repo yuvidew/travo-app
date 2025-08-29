@@ -1,14 +1,15 @@
 import React from "react";
 import {
-    Text,
-    TouchableOpacity,
-    StyleSheet,
-    ViewStyle,
-    TextStyle,
     Platform,
+    StyleSheet,
+    Text,
+    TextStyle,
+    TouchableOpacity,
+    ViewStyle,
 } from "react-native";
 import { ButtonProps } from "../types/type";
 import Spinner from "./Spinner";
+import { Color } from '../assets/Color'
 
 type RNButtonProps = ButtonProps & {
     style?: ViewStyle; // replaces className
@@ -16,7 +17,7 @@ type RNButtonProps = ButtonProps & {
 };
 
 const COLORS = {
-    primary700: "#fb2c36", // Tailwind blue-700-ish
+    primary700: Color.primary, // Tailwind blue-700-ish
     primary200: "#BFDBFE",
     red500: "#EF4444",
     red100: "#FEE2E2",
