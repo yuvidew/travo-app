@@ -5,7 +5,21 @@ import axios, { isAxiosError } from "axios";
 import { router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-type ApiResponse = { message: string; token?: string };
+type ApiResponse = {
+    message: string; token?: string,
+    user?: {
+        id: number;
+        email: string;
+        name: string;
+        password: string;
+        google_id: string | null;
+        created_at: string; // ISO Date string
+        updated_at: string; // ISO Date string
+        otp_code: string;
+        otp_expiry: string; // ISO Date string
+        picture: string | null;
+    };
+};
 
 /**
  * Handles user signup request.
@@ -131,6 +145,8 @@ export const otpCheck = async (form: VerifyOtpInput) => {
             });
 
             await AsyncStorage.removeItem("user_email");
+
+            await AsyncStorage.setItem("user_details", JSON.stringify(data.user))
 
             router.push("/(root)/(tabs)")
 

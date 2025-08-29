@@ -1,11 +1,12 @@
+import { Link } from 'expo-router'
+import React, { useState } from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import React, { useState } from 'react'
-import { Icons } from '../../constants/icons'
-import { Link } from 'expo-router'
-import InputField from '../../components/input-fields'
 import CustomButton from '../../components/custom-button'
+import InputField from '../../components/input-fields'
+import { Icons } from '../../constants/icons'
 import { useSignin } from './hook/useAuth'
+import { Color } from '../../assets/Color'
 
 const Signin = () => {
     const [form, setForm] = useState({
@@ -40,7 +41,7 @@ const Signin = () => {
                         Welcome to {""}
                         <Text
                             style={{
-                                color: "#fb2c36"
+                                color: Color.primary
                             }}
                         >
                             Travo.

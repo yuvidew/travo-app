@@ -1,7 +1,8 @@
 
-import { TabIconProps } from "../types/type";
 import React from "react";
-import { View, Text, Image, StyleSheet, ImageSourcePropType } from "react-native";
+import { Image, ImageSourcePropType, StyleSheet, Text, View } from "react-native";
+import { TabIconProps } from "../types/type";
+import { Color } from '../assets/Color'
 
 
 /**
@@ -20,7 +21,7 @@ const TabIcon = ({ focused, icon, title, size = 24 }: TabIconProps) => (
         <Image
             source={icon as ImageSourcePropType}
             style={[
-                { tintColor: focused ? "#fb2c36" : "#666876", width: size, height: size },
+                { tintColor: focused ? Color.primary : "#666876", width: size, height: size },
             ]}
             resizeMode="contain"
             // tintColor={"#666876"}
