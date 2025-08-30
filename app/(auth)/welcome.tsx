@@ -35,7 +35,7 @@ const Welcome = () => {
                 </Text>
                 <TouchableOpacity 
                     style = {styles.button}
-                    onPress={() => router.push("/(root)/(tabs)")}
+                    onPress={() => router.push("/(auth)/sign-in")}
                 >
                     <Text style = {{
                         color : "white",

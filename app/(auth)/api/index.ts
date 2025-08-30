@@ -30,10 +30,9 @@ type ApiResponse = {
  */
 
 export const signup = async (form: SignupFormType): Promise<void> => {
-    console.log("call the sign up 1", form);
+    
     try {
         const { data, status } = await axios.post(api_end_points.signup, form);
-        console.log("call the sign up 2");
 
         if (status === 200) {
             Toast.show({
@@ -45,7 +44,6 @@ export const signup = async (form: SignupFormType): Promise<void> => {
 
             return data;
         }
-        console.log("call the sign up 3");
 
     } catch (error) {
         console.log("Error to sign up: ", error);
