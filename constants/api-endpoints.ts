@@ -7,4 +7,8 @@ export const api_end_points = {
     verify_email : `${api}/auth/user/verify-email`,
     verify_reset_pass_otp : `${api}/auth/user/verify-forget-password-opt`,
     reset_password : `${api}/auth/user/reset-new-password`,
+
+    // start to trips
+
+    get_trips_by_travel_style :  `${api}/trip/get-trips-by-travel-style?travel_styles=`
 }
