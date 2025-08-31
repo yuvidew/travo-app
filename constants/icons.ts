@@ -13,4 +13,5 @@ export const Icons = {
     user_focus : require("../assets/icons/user-focus.png"),
     user : require("../assets/icons/user.png"),
     checked : require("../assets/icons/checked.png"),
+    bell : require("../assets/icons/bell.png"),
 }
