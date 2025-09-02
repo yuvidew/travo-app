@@ -174,3 +174,33 @@ declare interface TabIconProps {
     title?: string;
     size?: number;
 }
+
+declare interface TripResult  {
+    name: string;
+    description: string;
+    estimatedPrice: string;
+    duration: number;
+    budget: string;
+    travelStyle: string;
+    country: string;
+    interests: string;
+    groupType: string;
+    bestTimeToVisit: string[];
+    weatherInfo: string[];
+    location: TripLocation;
+    itinerary: TripItineraryDay[];
+};
+
+declare interface Trip  {
+    id: number;
+    country: string;
+    group_type: string;
+    travel_style: string;
+    interest: string;
+    budget_estimate: string;
+    images: string; // comma-separated URLs
+    result: string; // JSON string of TripResult
+    created_at: string; // ISO date string
+    userId: string;
+    is_published : number
+};

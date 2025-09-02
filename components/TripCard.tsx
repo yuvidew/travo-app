@@ -38,7 +38,7 @@ const TripCard = ({ image = images.adventure, title, price, rating, onPress }: P
             {/* Trip Image */}
             <View style={styles.image_box}>
                 <Image
-                    source={image}
+                    source={{uri : image}}
                     style={{
                         width: "100%",
                         height: "100%",

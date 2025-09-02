@@ -1,14 +1,17 @@
-import { Text, StyleSheet, View, Image, FlatList } from "react-native";
+import { Text, StyleSheet, View, Image, FlatList, ActivityIndicator, } from "react-native";
 import React from "react";
 import Header from "../../../components/header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../../../constants/images";
 import PopularCard from "../../../components/PopularCard";
-import { Color } from "../../../assets/Color";
+import { Color } from '../../../assets/Color';
 import { demy_tours } from "../../../constants/data";
 import TripCard from "../../../components/TripCard";
+import { useGetTripsByTravelStyle } from "./hooks/useTrips";
+import { TripResult } from "../../../types/type";
 
 export default function Index() {
+  const {data , isLoading , isError} = useGetTripsByTravelStyle();
   return (
     <>
       {/* start to header */}
@@ -18,20 +21,36 @@ export default function Index() {
       {/* start to trips home view  */}
       <SafeAreaView style={styles.container}>
         <FlatList
-          data={[1, 2, 3, 4]}
-          renderItem={() => (
+          data={data}
+          renderItem={({item}) => {
+            const trip_details : TripResult = JSON.parse(item.result);
+            return (
             <TripCard
-              title="Mountain Adventure"
+              title={trip_details.name}
               price="$250"
-              rating={4.7}
+              rating={4}
+              image={item.images.split(",")[0]}
             />
-          )}
+          ) 
+          }}
+          keyExtractor={(item) => String(item.id)}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             paddingBottom: 160,
             gap: 16,
           }}
 
+          ListEmptyComponent={
+          !isLoading ? (
+            <ActivityIndicator 
+              size="large" 
+              color={Color.primary}
+              style = {{
+                marginTop : 28
+              }}
+            />
+          ) : null
+        }
           ListHeaderComponent={
             <View style={{ gap: 25 }}>
               {/* start to hero views */}
