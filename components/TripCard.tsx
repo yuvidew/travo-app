@@ -1,6 +1,7 @@
 import { Image, StyleSheet, TouchableOpacity, View, Text } from 'react-native'
 import React from 'react'
 import { images } from '../constants/images'
+import { Color } from '../assets/Color';
 
 interface Props {
     /** Trip image */
@@ -48,9 +49,16 @@ const TripCard = ({ image = images.adventure, title, price, rating, onPress }: P
 
             {/* Trip Details */}
             <View style={styles.details}>
-                <Text style={styles.title}>{title}</Text>
+                <View style={{
+                    flexDirection : "row",
+                    alignItems : "center",
+                    justifyContent : "space-between"
+                }}>
                 <Text style={styles.price}>{price}</Text>
                 <Text style={styles.rating}>⭐ {rating}</Text>
+
+                </View>
+                <Text style={styles.title}>{title}</Text>
             </View>
         </TouchableOpacity>
     )
@@ -76,17 +84,17 @@ const styles = StyleSheet.create({
     details: {
         flex: 1,
         justifyContent: "space-between",
-        paddingVertical: 5,
+        paddingVertical: 10,
     },
     title: {
         fontSize: 18,
         fontWeight: "600",
-        color: "#000"
+        color: Color.secondary
     },
     price: {
-        fontSize: 16,
+        fontSize: 26,
         fontWeight: "500",
-        color: "#2C969B"
+        color: Color.primary
     },
     rating: {
         fontSize: 14,
