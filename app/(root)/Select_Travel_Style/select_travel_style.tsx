@@ -89,6 +89,7 @@ const SelectTravelStyle = () => {
                             fontWeight: 700
                         }}
                     >
+                        {/* TODO : add user name */}
                         User_name
                     </Text>
                     ,
