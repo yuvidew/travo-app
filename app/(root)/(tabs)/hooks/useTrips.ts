@@ -5,5 +5,6 @@ export const useGetTripsByTravelStyle = () => {
     return useQuery({
         queryFn : getTripsByTravelStyle,
         queryKey : ["get-trips-by-travel-style"],
+        
     })
 }
