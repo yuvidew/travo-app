@@ -1,5 +1,5 @@
-import { Trip } from "../../../../types/type";
-import { api_end_points } from "../../../../constants/api-endpoints";
+import { Trip } from "../types/type";
+import { api_end_points } from "../constants/api-endpoints"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios, { isAxiosError } from "axios";
 import Toast from "react-native-toast-message";
@@ -101,4 +101,52 @@ export const getTripsByTravelStyle = async ({
         }
         throw error;
     }
+}
+
+
+
+export const getTripById = async (id : string) => {
+    try {
+        const {data ,  status} = await api.get(`${api_end_points.get_trip_by_id}/${id}`);
+
+        if (status === 200) {
+            return data
+        }
+
+
+    } catch (error) {
+        if (isAxiosError(error)) {
+            console.log("Error to get trips", error?.response?.data.message);
+            if (error.response?.status === 401) {
+                Toast.show({
+                    type: "error",
+                    text1: error.response.data.message
+                })
+
+                throw error
+            } else if (error.response?.status === 404) {
+                Toast.show({
+                    type: "error",
+                    text1: error.response.data.message
+                })
+
+                throw error
+            } else if (error.response?.status === 500) {
+                Toast.show({
+                    type: "error",
+                    text1: error.response.data.message
+                })
+
+                throw error
+            } else {
+                Toast.show({
+                    type: "error",
+                    text1: error?.response?.data.message
+                })
+
+                throw error
+            }
+        }
+        throw error;
+    } 
 }
