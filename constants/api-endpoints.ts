@@ -10,5 +10,6 @@ export const api_end_points = {
 
     // start to trips
 
-    get_trips_by_travel_style :  `${api}/trip/get-trips-by-travel-style?travel_styles=`
+    get_trips_by_travel_style :  `${api}/trip/user/get-trips-by-travel-style?travel_styles=`,
+    get_trip_by_id : `${api}/trip/user/get-trip-by-id`
 }
