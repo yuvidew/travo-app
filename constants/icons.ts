@@ -15,4 +15,6 @@ export const Icons = {
     checked : require("../assets/icons/checked.png"),
     bell : require("../assets/icons/bell.png"),
     alert : require("../assets/icons/alert.png"),
+    calender : require("../assets/icons/calendar.png"),
+    location : require("../assets/icons/location-mark.png"),
 }
