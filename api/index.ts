@@ -1,4 +1,4 @@
-import { Trip } from "../types/type";
+import { Trip, TripResult } from "../types/type";
 import { api_end_points } from "../constants/api-endpoints"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios, { isAxiosError } from "axios";
@@ -103,11 +103,16 @@ export const getTripsByTravelStyle = async ({
     }
 }
 
-
+type GetTripByIDResponse = {
+    code : number,
+    message : string,
+    trip : Trip,
+    result : TripResult
+}
 
 export const getTripById = async (id : string) => {
     try {
-        const {data ,  status} = await api.get(`${api_end_points.get_trip_by_id}/${id}`);
+        const {data ,  status} = await api.get<GetTripByIDResponse>(`${api_end_points.get_trip_by_id}/${id}`);
 
         if (status === 200) {
             return data
